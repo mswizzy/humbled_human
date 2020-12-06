@@ -1,17 +1,18 @@
 {% extends 'base.html' %}
 
-{% block title %} My Recipes {% endblock %}
+{% block title %} Humbled Human {% endblock %}
 
 
 {% block body %} 
 
-<h1>Home Page</h1>
+<h1>Humbled Human</h1>
 
 <hr>
-<p>My recipes home page</p>
-<a href= "{{ url_for('admin_users') }}">all users</a>
-<br><br>
-<a href= "{{ url_for('login') }}">login</a>
-<br><br>
-
+<h3>Featured cause</h3>
+<p>add the following</p>
+<ul>
+    <li>image</li>
+    <li>short blurb</li>
+    <li>link to site</li>
+</ul>
 {% endblock %}

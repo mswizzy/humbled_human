@@ -1,31 +1,41 @@
 {% extends 'base.html' %}
 
-{% block title %} My Recipes Administration {% endblock %}
+{% block title %} Humbled Human Administration {% endblock %}
 
 
 {% block body %} 
 
 <h1>Admin Page</h1>
 <hr>
-<p>My recipes admin page</p>
-<h3>Create your account</h3>
+<p>Humbled Human - All Users</p>
+<h3>Add a new user</h3>
   <hr>
   <form method="POST" action="/admin/add-user">
 
-    <p> <label  for="first_name"> First Name: </label>    
-    <input type="text" id="first_name" name="first_name" required autofocus ></p>
-
-    <p> <label  for="last_name"> Last Name: </label>    
-    <input type="text" id="last_name" name="last_name" required ></p>
-
-    <p> <label  for="email"> Email: </label>    
-    <input type="text" id="email" name="email" required ></p>
-
-    <p> <label  for="password"> Password: </label>    
-    <input type="text" id="password" name="password" required ></p>
-
-    <p> <label  for="confirm_password"> Confirm password: </label>    
-    <input type="text" id="confirm_password" name="confirm_password" required ></p>
+    
+    <p> <label for="username">Username: </label>
+        <input type="text" id="username" name="username" required autofocus ></p>
+    
+        <p> <label  for="first_name"> First Name: </label>    
+        <input type="text" id="first_name" name="first_name" required ></p>
+    
+        <p> <label  for="last_name"> Last Name: </label>    
+        <input type="text" id="last_name" name="last_name" required ></p>
+    
+        <p> <label  for="email"> Email: </label>    
+        <input type="text" id="email" name="email" required ></p>
+    
+        <p> <label  for="password"> Password: </label>    
+        <input type="text" id="password" name="password" required ></p>
+    
+        <p> <label  for="confirm_password"> Confirm password: </label>    
+        <input type="text" id="confirm_password" name="confirm_password" required ></p>
+       
+        <p> <label for="organization">Organization: </label>
+        <input type="text" id="organization" name="organization" required ></p>
+    
+        <p> <label for="dob">Date of Birth: </label>
+        <input type="date" id="dob" name="dob" required ></p>
     <p> 
     <label for="role">Role :</label>
     <select name="role" required>
@@ -46,9 +56,12 @@
     <table>
         <thead>
             <tr>
+                <th>Username</th>
                 <th>First Name</th>
                 <th>Last Name</th>
                 <th>Email</th>
+                <th>Organization</th>
+                <th>DOB</th>
                 <th>Role</th>
                 <th>Date Added</th>
                 <th>Date Modified</th>
@@ -58,10 +71,12 @@
         <tbody>
             {% for row in all_users %}
             <tr>
-                
+                <td> {{ row['username'] }}</td>
                 <td> {{ row['first_name'] }}</td>
                 <td> {{ row['last_name'] }}</td>
                 <td> {{ row['email'] }}</td>
+                <td> {{ row['organization'] }}</td>
+                <td> {{ row['dob'] }}</td>
                 <td> {{ row['role'] }}</td>
                 <td> {{ row['date_added'] }}</td>
                 <td> {{ row['date_modified'] }}</td>

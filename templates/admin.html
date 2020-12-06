@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Functionality{% endblock %}
+
+
+{% block body %} 
+<h1>Admin Functionality</h1>
+<p>List buttons/links for admin to click and follow</p>
+<ul>
+    <li>Create new account</li>
+    <li>View all accounts</li>
+    <li><a class="link" href="{{ url_for('admin_users') }}">CRUD/View all users</a></li>
+</ul>
+{% endblock %}

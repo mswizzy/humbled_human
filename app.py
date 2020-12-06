@@ -7,6 +7,7 @@ from flask import Flask, request, render_template, redirect, url_for, session, f
 from flask_login import LoginManager, UserMixin, current_user, login_user, logout_user, login_required
 import bcrypt
 from functools import wraps
+import getpass
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
@@ -16,31 +17,33 @@ APP_ROOT = os.path.join(os.path.dirname(__file__), '..')   # refers to applicati
 dotenv_path = os.path.join(APP_ROOT, '.env')
 load_dotenv(dotenv_path)
 
-mongo = os.getenv('MONGO')
+#mongo = os.getenv('MONGO')
 
-client = pymongo.MongoClient(mongo)
+client = pymongo.MongoClient(os.getenv('MONGO'))
 
-db = client['recipe_app'] # Mongo collection
-users = db['users'] # Mongo document
-roles = db['roles'] # Mongo document
-
+db = client['humbled_human'] # Mongo collection
+users = db['users'] # Mongo document/table
+roles = db['roles'] # Mongo document/table
+causes = db['causes'] # Mongo document/table
+posts = db['posts'] # Mongo document/table
 
 login = LoginManager()
 login.init_app(app)
 login.login_view = 'login'
 
 @login.user_loader
-def load_user(username):
-    u = users.find_one({"email": username})
+def load_user(email):
+    u = users.find_one({"email": email})
     if not u:
         return None
-    return User(username=u['email'], role=u['role'], id=u['_id'])
+    return User(username=u['username'], email=u['email'], role=u['role'], id=u['_id'])
 
-class User:
-    def __init__(self, id, username, role):
+class User: ##user class for login purposes
+    def __init__(self, id, username, role, email):
         self._id = id
         self.username = username
         self.role = role
+        self.email = email
 
     @staticmethod
     def is_authenticated():
@@ -57,6 +60,8 @@ class User:
     def get_id(self):
         return self.username
 
+
+##password hashing below
 '''
     @staticmethod
     def check_password(password_hash, password):
@@ -88,10 +93,46 @@ def roles_required(*role_names):
 def index():
     return render_template('index.html')
 
-@app.route('/register')
-def register():
-    return 'self register for an account'
+@app.route('/about', methods=['GET', 'POST'])
+def about():
+    return render_template('about.html')
 
+@app.route('/discover', methods=['GET', 'POST'])
+def discover():
+    return render_template('discover.html')
+
+@app.route('/register/add-user', methods=['GET', 'POST'])
+def add_user():
+    if request.method == 'POST':
+        form = request.form
+        
+        password = request.form['password']
+        
+        email = users.find_one({"email": request.form['email']})
+        if email:
+            flash('This email is already registered.', 'warning')
+            return 'This email has already been registered.'
+        new_user = {
+            'username': form['username'],
+            'first_name': form['first_name'],
+            'last_name': form['last_name'],
+            'email': form['email'],
+            'password': password,
+            'organization': form['organization'],
+            'dob': form['dob'],
+            'role': form['role'],
+            'date_added': datetime.datetime.now(),
+            'date_modified': datetime.datetime.now()
+        }
+        users.insert_one(new_user)
+        flash(new_user['email'] + ' user has been added.', 'success')
+    return redirect(url_for('index'))
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    return render_template('register.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -123,9 +164,16 @@ def logout():
     return redirect(url_for('login'))
 
 
+@app.route('/admin', methods=['GET', 'POST'])
+@login_required
+@roles_required('admin')
+def admin():
+    return render_template('admin.html')
+
+
 @app.route('/my-account/<user_id>', methods=['GET', 'POST'])
 @login_required
-@roles_required('user', 'contributor', 'admin')
+@roles_required('user', 'contributor', 'admin') ##all accounts can see this
 def my_account(user_id):
     edit_account = users.find_one({'_id': ObjectId(user_id)})
     if edit_account:
@@ -144,10 +192,13 @@ def update_myaccount(user_id):
 
         users.update({'_id': ObjectId(user_id)},
             {
+            'username': form['username'],
             'first_name': form['first_name'],
             'last_name': form['last_name'],
             'email': form['email'],
             'password': password,
+            'organization': form['organization'],
+            'dob': form['dob'],
             'role': form['role'],
             'date_added': form['date_added'],
             'date_modified': datetime.datetime.now()
@@ -180,10 +231,13 @@ def admin_add_user():
             flash('This email is already registered.', 'warning')
             return 'This email has already been registered.'
         new_user = {
+            'username': form['username'],
             'first_name': form['first_name'],
             'last_name': form['last_name'],
             'email': form['email'],
             'password': password,
+            'organization': form['organization'],
+            'dob': form['dob'],
             'role': form['role'],
             'date_added': datetime.datetime.now(),
             'date_modified': datetime.datetime.now()
@@ -226,10 +280,13 @@ def admin_update_user(user_id):
 
         users.update({'_id': ObjectId(user_id)},
             {
+            'username': form['username'],
             'first_name': form['first_name'],
             'last_name': form['last_name'],
             'email': form['email'],
             'password': password,
+            'organization': form['organization'],
+            'dob': form['dob'],
             'role': form['role'],
             'date_added': form['date_added'],
             'date_modified': datetime.datetime.now()
@@ -239,24 +296,48 @@ def admin_update_user(user_id):
         return redirect(url_for('admin_users'))
     return render_template('users.html', all_roles=roles.find(), all_users=users.find())
 
+@app.route('/admin/delete-post/<user_id>', methods=['GET', 'POST'])
+@login_required
+@roles_required('admin')
+def admin_delete_post(post_id):
+    delete_post = posts.find_one({'_id': ObjectId(post_id)})
+    if delete_post:
+        posts.delete_post(delete_post)
+        flash(delete_post['title'] + ' has been deleted.', 'warning')
+        return redirect(url_for('admin_users'))
+    flash('Post not found.', 'warning')
+    return redirect(url_for('admin_users'))
 
 
-##########  Recipes ##########
 
-@app.route('/recipes/new-recipe', methods=['GET'])
+##########  Posts ##########
+@app.route('/share', methods=['GET', 'POST'])
 @login_required
 @roles_required('admin', 'contributor')
-def new_recipe():
-    return 'Retrieve new recipe page.'
+def share():
+    return render_template('share.html', all_causes=causes.find())
 
-@app.route('/recipes/add-recipe', methods=['POST'])
+
+@app.route('/share/add-post', methods=['GET', 'POST'])
 @login_required
 @roles_required('admin', 'contributor')
-def add_recipe():
-    return 'Add new recipe to database.'
-
-
-
+def add_post():
+    if request.method == 'POST':
+        form = request.form
+        new_post = {
+            'title': form['title'],
+            'organization': form['organization'],
+            'link': form['link'],
+            'cause': form['cause'],
+            'description': form['description'],
+            'username': current_user.get_id(),
+            'date_added': datetime.datetime.now(),
+            'date_modified': datetime.datetime.now()
+        }
+        posts.insert_one(new_post)
+        flash(new_post['title'] + ' post has been added.', 'success')
+        return redirect(url_for('share'))
+    return render_template('share.html', all_causes=causes.find())
 
 if __name__ == "__main__":
     app.run(debug=True)

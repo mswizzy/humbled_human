@@ -8,16 +8,16 @@ APP_ROOT = os.path.join(os.path.dirname(__file__), '..')   # refers to applicati
 dotenv_path = os.path.join(APP_ROOT, '.env')
 load_dotenv(dotenv_path)
 
-mongo = os.getenv('MONGO')
+#mongo = os.getenv('MONGO')
 
-client = pymongo.MongoClient(mongo)
+client = pymongo.MongoClient(os.getenv('MONGO'))
 
 #create new database
 db = client['humbled_human']
 
 #create tables
 users = db['users']
-db = db['roles']
+roles = db['roles']
 posts = db['posts']
 cause = db['cause']
 
@@ -41,10 +41,11 @@ def add_user(userID, username,first_name, last_name, email, password, organizati
         'password': password,
         'organization' : organization,
         'dob': dob,
-        'join_date': datetime.datetime.now()
+        'join_date': datetime.datetime.now(),
         'role': role
     }
-    return users.insert_one(user_data)
+    return users.insert_one(user_data);
+    
 
 def add_cause(cause_name):
     cause_data = {
@@ -59,7 +60,7 @@ def add_post(postID, title, organization, cause, link, description):
         'organization': organization,
         'cause': cause,
         'link': link, 
-        'description': description
+        'description': description,
         'date_added': datetime.datetime.now(),
         'date_modified': datetime.datetime.now()
     }

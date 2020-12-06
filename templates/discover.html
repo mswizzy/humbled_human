@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %} Discover{% endblock %}
+
+
+{% block body %} 
+<h1>Discover</h1>
+<p>List all posts here in table view</p>
+
+
+
+{% if all_posts %}
+<table>
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Organization</th>
+            <th>Link</th>
+            <th>Cause</th>
+            <th>Description</th>
+            <th>Shared by</th>
+            <th>Date Added</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for row in all_posts %}
+        <tr>
+            <td> {{ row['title'] }}</td>
+            <td> {{ row['organization'] }}</td>
+            <td> {{ row['link'] }}</td>
+            <td> {{ row['cause'] }}</td>
+            <td> {{ row['description'] }}</td>
+            <td> {{ row['username'] }}</td>
+            <td> {{ row['date_added'] }}</td>
+
+            {% if current_user.role =='admin' %}
+            <td><form action="{{ url_for('admin_delete_post', user_id=row['_id']) }}" method="POST">
+                <input type="submit" value="Delete"  />
+            </form>    </td>
+            {% else %}
+            <td><form action="{{ row['link'] }}"><input type="submit" value="Learn more"></form></td>
+
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+{% endblock %}
