@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %} Edit Post{% endblock %}
+
+
+{% block body %}
+
+<h3>{{ post['title'] }}</h3>
+<hr>
+<form method="POST" action="/post/update-post/<post_id>">
+
+    <div class="form-group">
+        <label for="title">Title: </label>
+    <br>
+        <input type="text" id="title" name="title" class="form-control" value="{{ post['title'] }}" required autofocus>
+    </div>
+
+    <div class="form-group">
+        <label for="organization">Organization: </label>
+    <br>
+        <input type="text" id="organization" name="organization" class="form-control" value="{{ post['organization'] }}" required>
+    </div>
+
+    <div class="form-group">
+        <label for="cause">Cause: </label>
+    <br>
+        <select name="cause" required>
+            <option value="{{ post['cause'] }}"></option>
+            {% for cause in all_causes %}
+            <option value="{{cause['cause'] }}">{{ cause['cause'] }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label class="print" for="link">Link: </label>
+    <br>
+        <input type="text" id="link" name="link" class="form-control" value="{{ post['link'] }}" required>
+    </div>
+
+    <div class="form-group">
+        <label class="print" for="description"> Description: </label>
+    <br>
+        <input type="text" id="description" name="description" class="form-control" value="{{ post['description'] }}" required>
+    </div>
+
+    <div class="form-group"> <label>Shared by: </label>
+        <p style="display:inline;">{{ post['username'] }}</p>
+    </div>
+
+    <div class="form-group"> <label> Date added: </label>
+        <p style="display:inline;">{{ post['date_added'] }}</p>
+    </div>
+
+    <div class="form-group"> <label> Last modified: </label>
+        <p style="display:inline;">{{ post['date_modified'] }}</p>
+    </div>
+
+    <div>
+        <input type="submit" class="btn btn-secondary" value="Update Post">
+    </div>
+
+</form>
+
+
+<br>
+
+{% endblock %}

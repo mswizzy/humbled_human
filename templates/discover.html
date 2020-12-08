@@ -7,19 +7,19 @@
 <h1>Discover</h1>
 <p>List all posts here in table view</p>
 
-
+<a href="{{ url_for('new_post') }}">Share post</a>
 
 {% if all_posts %}
-<table>
+<table class="table table-hover">
     <thead>
         <tr>
-            <th>Title</th>
-            <th>Organization</th>
-            <th>Link</th>
-            <th>Cause</th>
-            <th>Description</th>
-            <th>Shared by</th>
-            <th>Date Added</th>
+            <th scope="col">Title</th>
+            <th scope="col">Organization</th>
+            <!--<th scope="col">Link</th>-->
+            <th scope="col">Cause</th>
+           <!-- <th scope="col">Description</th> -->
+            <th scope="col">Shared by</th>
+            <th scope="col">Date Added</th>
         </tr>
     </thead>
 
@@ -28,18 +28,17 @@
         <tr>
             <td> {{ row['title'] }}</td>
             <td> {{ row['organization'] }}</td>
-            <td> {{ row['link'] }}</td>
+            <!--<td> {{ row['link'] }}</td> -->
             <td> {{ row['cause'] }}</td>
-            <td> {{ row['description'] }}</td>
+            <!--<td> {{ row['description'] }}</td> -->
             <td> {{ row['username'] }}</td>
             <td> {{ row['date_added'] }}</td>
 
+            <td><form action="{{ url_for('view_post', post_id=row['_id']) }}" method="POST"><input type="submit" class="btn btn-primary" value="More details"></form></td>
             {% if current_user.role =='admin' %}
-            <td><form action="{{ url_for('admin_delete_post', user_id=row['_id']) }}" method="POST">
+            <td><form action="{{ url_for('delete_post', post_id=row['_id']) }}" method="POST">
                 <input type="submit" value="Delete"  />
             </form>    </td>
-            {% else %}
-            <td><form action="{{ row['link'] }}"><input type="submit" value="Learn more"></form></td>
 
             {% endif %}
         </tr>

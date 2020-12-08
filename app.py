@@ -8,20 +8,25 @@ from flask_login import LoginManager, UserMixin, current_user, login_user, logou
 import bcrypt
 from functools import wraps
 import getpass
+from werkzeug.urls import url_parse
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
 ## necessary for python-dotenv ##
-APP_ROOT = os.path.join(os.path.dirname(__file__), '..')   # refers to application_top
-dotenv_path = os.path.join(APP_ROOT, '.env')
+BASEDIR = os.path.abspath(os.path.dirname(__file__))
+dotenv_path = os.path.join(BASEDIR, '.env')
+#APP_ROOT = os.path.join(os.path.dirname(__file__), '..')   # refers to application_top
+#dotenv_path = os.path.join(APP_ROOT, '.env')
 load_dotenv(dotenv_path)
 
-#mongo = os.getenv('MONGO')
+mongo = os.getenv('MONGO')
+
+#client=pymongo.MongoClient("mongodb+srv://humbled:I71VYTOXl7kKCAjD@cluster0.ovp7x.mongodb.net/humbled?retryWrites=true&w=majority")
 
 client = pymongo.MongoClient(os.getenv('MONGO'))
 
-db = client['humbled_human'] # Mongo collection
+db = client['humbled'] # Mongo collection
 users = db['users'] # Mongo document/table
 roles = db['roles'] # Mongo document/table
 causes = db['causes'] # Mongo document/table
@@ -36,14 +41,15 @@ def load_user(email):
     u = users.find_one({"email": email})
     if not u:
         return None
-    return User(username=u['username'], email=u['email'], role=u['role'], id=u['_id'])
+    return User(email=u['email'], role=u['role'], id=u['_id'], username=u['username'])
 
 class User: ##user class for login purposes
-    def __init__(self, id, username, role, email):
+    def __init__(self, id, role, email, username):
         self._id = id
+        self.email = email
         self.username = username
         self.role = role
-        self.email = email
+        #self.email = email
 
     @staticmethod
     def is_authenticated():
@@ -58,7 +64,7 @@ class User: ##user class for login purposes
         return False
 
     def get_id(self):
-        return self.username
+        return self.email
 
 
 ##password hashing below
@@ -97,9 +103,6 @@ def index():
 def about():
     return render_template('about.html')
 
-@app.route('/discover', methods=['GET', 'POST'])
-def discover():
-    return render_template('discover.html')
 
 @app.route('/register/add-user', methods=['GET', 'POST'])
 def add_user():
@@ -131,20 +134,23 @@ def add_user():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
+        print('user is authenticated')
         return redirect(url_for('index'))
     return render_template('register.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
+        print('user is already logged in')
         return redirect(url_for('index'))
 
     if request.method == 'POST':
-        user = users.find_one({"email": request.form['username']})
-        print(user['email'])
+        user = users.find_one({"email": request.form['email']})
+        #print(user['email'])
         if user and user['password'] == request.form['password']:
-            user_obj = User(username=user['email'], role=user['role'], id=user['_id'])
+            user_obj = User(email=user['email'], role=user['role'], id=user['_id'], username=user['username'])
             login_user(user_obj)
+            print('logged in')
             next_page = request.args.get('next')
 
             if not next_page or url_parse(next_page).netloc != '':
@@ -311,33 +317,105 @@ def admin_delete_post(post_id):
 
 
 ##########  Posts ##########
-@app.route('/share', methods=['GET', 'POST'])
+@app.route('/discover/view-post/<post_id>', methods=['GET', 'POST'])
+def view_post(post_id):
+    view_post = posts.find_one({'_id': ObjectId(post_id)})
+    if view_post:
+        return render_template('view_post.html', post=view_post)
+    flash('Post not found.', 'danger')
+    return redirect(url_for('discover'))
+
+@app.route('/posts', methods=['GET', 'POST'])
+def view_posts():
+    return render_template('discover.html', all_posts=posts.find())
+
+#@app.route('/share', methods=['GET', 'POST'])
+#@login_required
+#@roles_required('admin', 'contributor')
+#def share():
+#    return render_template('share.html')
+
+@app.route('/posts/new-post', methods=['GET','POST'])
 @login_required
 @roles_required('admin', 'contributor')
-def share():
+def new_post():
     return render_template('share.html', all_causes=causes.find())
 
 
-@app.route('/share/add-post', methods=['GET', 'POST'])
+@app.route('/posts/add-post', methods=['GET', 'POST'])
 @login_required
 @roles_required('admin', 'contributor')
 def add_post():
     if request.method == 'POST':
         form = request.form
+        post = posts.find_one({'title': request.form['title']})
+        if post:
+            flash('This post has already been submitted.', 'warning')
+            return 'This post has already been submitted'
         new_post = {
-            'title': form['title'],
-            'organization': form['organization'],
-            'link': form['link'],
-            'cause': form['cause'],
-            'description': form['description'],
-            'username': current_user.get_id(),
-            'date_added': datetime.datetime.now(),
-            'date_modified': datetime.datetime.now()
+            "title": form["title"],
+            "organization": form["organization"],
+            "cause": form["cause"],
+            "link": form["link"],
+            "description": form["description"],
+            "username": form["username"],
+            "date_added": datetime.datetime.now(),
+            "date_modified": datetime.datetime.now()
         }
         posts.insert_one(new_post)
+        #print('post inserted')
         flash(new_post['title'] + ' post has been added.', 'success')
-        return redirect(url_for('share'))
+        return render_template('view_post.html', post=new_post)
+
     return render_template('share.html', all_causes=causes.find())
+
+@app.route('/post/edit-post/<post_id>', methods=['GET', 'POST'])
+@login_required
+@roles_required('admin', 'contributor')
+def edit_post(post_id):
+    edit_post = posts.find_one({'_id': ObjectId(post_id)})
+    if edit_post:
+        return render_template('edit-post.html', post=edit_post, all_causes=causes.find())
+    flash('Post not found.', 'danger')
+    return redirect(url_for('view_posts'))
+
+@app.route('/post/update-post/<post_id>', methods=['POST'])
+@login_required
+@roles_required('admin', 'contributor')
+def update_post(post_id):
+    if request.method == 'POST':
+        form = request.form
+        posts.update({'_id': ObjectId(post_id)},
+        {
+            "title": form["title"],
+            "organization": form["organization"],
+            "cause": form["cause"],
+            "link": form["link"],
+            "description": form["description"],
+            "username": form["username"],
+            "date_added": form['date_added'],
+            "date_modified": datetime.datetime.now()
+        })
+        update_post = posts.find_one({'_id': ObjectId(post_id)})
+        flash(update_post['title'] + ' has been updated.', 'success')
+        return render_template('view_post.html', post=update_post)
+    return render_template('edit-post.html', all_causes=causes.find())
+
+@app.route('/post/delete-post/<post_id>', methods=['GET', 'POST'])
+@login_required
+@roles_required('admin')
+def delete_post(post_id):
+    delete_post = posts.find_one({'_id': ObjectId(post_id)})
+    if delete_post:
+        posts.delete_one(delete_post)
+        flash(delete_post['title'] + ' has been delete.', 'danger')
+        return redirect(url_for('view_posts'))
+    flash('Recipe not found.', 'warning')
+    return redirect(url_for('view_recipes'))
+
+
+
+    
 
 if __name__ == "__main__":
     app.run(debug=True)

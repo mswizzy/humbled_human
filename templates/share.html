@@ -5,12 +5,13 @@
 {% block body %} 
 <h1>Share something</h1>
 
-<form method="POST" action="/share/add-post">
+<form method="POST" action="/posts/add-post">
+
     <p><label for="title">Post Title: </label>
     <input type="text" id="title" name="title" required autofocus ></p>
 
-    <p><label for=orgname">Organization: </label>
-    <input type="text" id="orgname" name="orgname" required ></p>
+    <p><label for=organization">Organization: </label>
+    <input type="text" id="organization" name="organization" required ></p>
 
     <p><label for=link">Link to Organization: </label>
     <input type="text" id="link" name="link" required ></p>
@@ -20,19 +21,22 @@
     <select name="cause" required>
         <option value="" selected disabled hidden> -- Choose cause -- </option>
         {% for cause in all_causes %}
-        <option value="{{ cause['cause_name'] }}">{{ cause['cause_name'] }}</option>
+        <option value="{{ cause['cause'] }}">{{ cause['cause'] }}</option>
         {% endfor %}
     </select>
     </p>
 
-
-
     <p><label for="description">Description: </label>
     <input type="text" id="description" name="description" required ></p>
 
-    
+    <div class="form-group"> <label for="username"> Added by: </label>
+        {% if current_user.is_authenticated %}
+        <input type="text " name="username" class="form-control" value="{{ current_user.username }}" required readonly>
+        {% endif %}</div>
     <p>  
 <input type="submit" value="Add Post"></p>
 
 </form>
+<hr>
+<br> 
 {% endblock %}

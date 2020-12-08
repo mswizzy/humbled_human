@@ -30,10 +30,7 @@
 
         <ul class="navbar-nav mr-auto">
           <li class="nav-item"> 
-            <a class="nav-link" href="{{ url_for('discover') }}">Discover</a>
-            </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('share') }}">Share</a>
+            <a class="nav-link" href="{{ url_for('view_posts') }}">Discover</a>
             </li>
           <li class="nav-item">
             <a class="nav-link" href="{{ url_for('about') }}">About</a>
@@ -51,7 +48,7 @@
         <ul class="navbar-nav mr-auto">
         {% if current_user.is_authenticated %}
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('my_account', user_id=current_user['_id']) }}">{{ current_user.username }}</a>
+          <a class="nav-link" href="{{ url_for('my_account', user_id=current_user['_id']) }}">{{ current_user.email }}</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{{ url_for('logout')}}">Logout</a>
