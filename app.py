@@ -251,7 +251,7 @@ def admin_add_user():
         users.insert_one(new_user)
         flash(new_user['email'] + ' user has been added.', 'success')
         return redirect(url_for('admin_users'))
-    return render_template('users.html', all_roles=roles.find(), all_users=users.find())
+    return render_template('admin-register.html', all_roles=roles.find(), all_users=users.find())
 
 @app.route('/admin/delete-user/<user_id>', methods=['GET', 'POST'])
 @login_required

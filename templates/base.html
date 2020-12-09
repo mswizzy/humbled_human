@@ -40,12 +40,12 @@
           </li>
         </ul>
 
-        <form class="form-inline my-2 my-lg-0" method="POST">
+      <!---  <form class="form-inline my-2 my-lg-0" method="POST">
           <input class="form-control mr-sm-2" type="search" name="search_string" placeholder="Search"
             aria-label="Search">
           <button class="btn btn-outline-success my-2 my-sm-0" formaction="/search" type="submit">Search</button>
-        </form>
-        <ul class="navbar-nav mr-auto">
+        </form> -->
+        <ul class="navbar-nav navbar-right">
         {% if current_user.is_authenticated %}
         <li class="nav-item">
           <a class="nav-link" href="{{ url_for('my_account', user_id=current_user['_id']) }}">{{ current_user.email }}</a>
