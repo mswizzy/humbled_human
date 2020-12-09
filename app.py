@@ -410,7 +410,7 @@ def delete_post(post_id):
     delete_post = posts.find_one({'_id': ObjectId(post_id)})
     if delete_post:
         posts.delete_one(delete_post)
-        flash(delete_post['title'] + ' has been delete.', 'danger')
+        flash(delete_post['title'] + ' has been deleted.', 'danger')
         return redirect(url_for('view_posts'))
     flash('Recipe not found.', 'warning')
     return redirect(url_for('view_recipes'))
