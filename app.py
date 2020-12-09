@@ -329,12 +329,6 @@ def view_post(post_id):
 def view_posts():
     return render_template('discover.html', all_posts=posts.find())
 
-#@app.route('/share', methods=['GET', 'POST'])
-#@login_required
-#@roles_required('admin', 'contributor')
-#def share():
-#    return render_template('share.html')
-
 @app.route('/posts/new-post', methods=['GET','POST'])
 @login_required
 @roles_required('admin', 'contributor')
@@ -375,7 +369,7 @@ def add_post():
 def edit_post(post_id):
     edit_post = posts.find_one({'_id': ObjectId(post_id)})
     if edit_post:
-        return render_template('edit-post.html', post=edit_post, all_causes=causes.find())
+        return render_template('edit-post.html', all_causes=causes.find(), post=edit_post)
     flash('Post not found.', 'danger')
     return redirect(url_for('view_posts'))
 
@@ -412,12 +406,62 @@ def delete_post(post_id):
         posts.delete_one(delete_post)
         flash(delete_post['title'] + ' has been deleted.', 'danger')
         return redirect(url_for('view_posts'))
-    flash('Recipe not found.', 'warning')
-    return redirect(url_for('view_recipes'))
+    flash('Post not found.', 'warning')
+    return redirect(url_for('view_posts'))
 
+###### CAUSES ######
+@app.route('/causes', methods=['GET', 'POST'])
+@login_required
+@roles_required('admin')
+def view_causes():
+    return render_template('causes.html', all_causes=causes.find())
 
+@app.route('/causes/delete-cause/<cause_id>', methods=['GET', 'POST'])
+@login_required
+@roles_required('admin')
+def delete_cause(cause_id):
+    delete_cause = causes.find_one({'_id': ObjectId(cause_id)})
+    if delete_cause:
+        causes.delete_one(delete_cause)
+        flash(delete_cause['cause'] + ' has been deleted.', 'danger')
+        return render_template('causes.html', all_causes=causes.find())
+    flash('Cause not found.', 'warning')
+    return redirect(url_for('view_causes'))
 
-    
+@app.route('/causes/add-cause', methods=['GET', 'POST'])
+@login_required
+@roles_required('admin')
+def add_cause():
+    if request.method == 'POST':
+        form = request.form
+        cause = causes.find_one({'cause': request.form['new_cause']})
+        if cause:
+            flash('This cause has already been added.', 'warning')
+            return 'This cause has already been added'
+        new_cause = {
+            "cause": form['new_cause']
+        }
+        causes.insert_one(new_cause)
+        #print('post inserted')
+        flash(new_cause['cause'] + ' has been added.', 'success')
+        return render_template('causes.html', all_causes=causes.find())
+
+    return render_template('causes.html', all_causes=causes.find())
+
+@app.route('/causes/edit-cause/<cause_id>', methods=['GET', 'POST'])
+@login_required
+@roles_required('admin')
+def edit_cause(cause_id):
+    if request.method == 'POST':
+        form = request.form
+        update_cause = causes.find_one({'_id': ObjectId(cause_id)})
+        causes.update_one(update_cause, 
+        { "$set":{
+            "cause": form['cause']
+        }})
+        flash(update_cause['cause'] + ' has been updated.', 'success')
+        return render_template('causes.html', cause=update_cause)
+    return render_template('causes.html', all_causes=causes.find())
 
 if __name__ == "__main__":
     app.run(debug=True)
