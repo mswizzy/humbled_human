@@ -379,27 +379,29 @@ def edit_post(post_id):
     flash('Post not found.', 'danger')
     return redirect(url_for('view_posts'))
 
-@app.route('/post/update-post/<post_id>', methods=['POST'])
+@app.route('/post/update-post/<post_id>', methods=['GET','POST'])
 @login_required
 @roles_required('admin', 'contributor')
 def update_post(post_id):
     if request.method == 'POST':
         form = request.form
-        posts.update({'_id': ObjectId(post_id)},
-        {
+        update_post = posts.find_one({'_id': ObjectId(post_id)})
+        posts.update_one(update_post, 
+        #posts.update({'_id': ObjectId(post_id)},
+        { "$set":{
             "title": form["title"],
             "organization": form["organization"],
             "cause": form["cause"],
             "link": form["link"],
             "description": form["description"],
-            "username": form["username"],
             "date_added": form['date_added'],
             "date_modified": datetime.datetime.now()
-        })
-        update_post = posts.find_one({'_id': ObjectId(post_id)})
+        }})
+        
         flash(update_post['title'] + ' has been updated.', 'success')
         return render_template('view_post.html', post=update_post)
-    return render_template('edit-post.html', all_causes=causes.find())
+        #return redirect(url_for("view_posts"))
+    return render_template('edit-post.html', all_causes=causes.find(), post_id=update_post['_id'])
 
 @app.route('/post/delete-post/<post_id>', methods=['GET', 'POST'])
 @login_required

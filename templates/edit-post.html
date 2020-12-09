@@ -7,7 +7,7 @@
 
 <h3>{{ post['title'] }}</h3>
 <hr>
-<form method="POST" action="/post/update-post/<post_id>">
+<form method="POST" action="{{ url_for('update_post', post_id=post['_id']) }}">
 
     <div class="form-group">
         <label for="title">Title: </label>
@@ -49,7 +49,8 @@
     </div>
 
     <div class="form-group"> <label> Date added: </label>
-        <p style="display:inline;">{{ post['date_added'] }}</p>
+        <input type="text" id="date_added" name="date_added" class="form-control" value="{{ post['date_added'] }}" required readonly>
+        
     </div>
 
     <div class="form-group"> <label> Last modified: </label>
