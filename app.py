@@ -298,7 +298,7 @@ def admin_update_user(user_id):
             'date_modified': datetime.datetime.now()
             })
         update_user = users.find_one({'_id': ObjectId(user_id)})
-        flash(update_user['email'] + ' has been added.', 'success')
+        flash(update_user['email'] + ' has been updated.', 'success')
         return redirect(url_for('admin_users'))
     return render_template('users.html', all_roles=roles.find(), all_users=users.find())
 

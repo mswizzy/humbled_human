@@ -10,8 +10,11 @@
   {% if user %}
   <form method="POST" action="{{ url_for('update_myaccount', user_id=user['_id']) }}">
 
+        <p><label for="username"> Username: </label>
+        <input type="text" id="username" name="username" required autofocus value = "{{ user['username'] }}"></p>
+
         <p> <label  for="first_name"> First Name: </label>    
-        <input type="text" id="first_name" name="first_name" required autofocus value="{{ user['first_name'] }}"></p>
+        <input type="text" id="first_name" name="first_name" required value="{{ user['first_name'] }}"></p>
 
         <p> <label  for="last_name"> Last Name: </label>    
         <input type="text" id="last_name" name="last_name" required value="{{ user['last_name'] }}" ></p>
@@ -21,17 +24,24 @@
     
         <p> <label  for="password"> Password: </label>    
         <input type="text" id="password" name="password" required value="{{ user['password'] }}"></p>
+        
         <p> <label  for="confirm_password"> Confirm password: </label>    
           <input type="text" id="confirm_password" name="confirm_password" required value="{{ user['password'] }}"></p>
 
-        <p> <label  for="role"> Role: </label>    <input type="text" id="role" name="role" value="{{ user['role'] }}" readonly>
+        <p><label for="organization"> Organization: </label>
+        <input type="text" id="organization" name="organization" required value="{{ user['organization'] }}"></p>
 
-      </p>
+        <p><label for="dob"> DOB: </label>
+        <input type="date" id="dob" name="dob" required value="{{ user['dob'] }}"></p>
+
+        <p> <label for="role"> Role: </label>    
+        <input type="text" id="role" name="role" required value="{{ user['role'] }}" readonly></p>
 
         <p> <label  for="date_added"> Date Added: </label>    
-            <input type="text" id="date_added" name="date_added" required value="{{ user['date_added'] }}" readonly></p>
-            <p> <label  for="date_modified"> Date Modifed: </label>    
-                <input type="text" id="date_modified" name="date_modified" required value="{{ user['date_modified'] }}" readonly></p>
+        <input type="text" id="date_added" name="date_added" required value="{{ user['date_added'] }}" readonly></p>
+        
+        <p> <label  for="date_modified"> Date Modifed: </label>    
+        <input type="text" id="date_modified" name="date_modified" required value="{{ user['date_modified'] }}" readonly></p>
 
         <p>  
     <input type="submit" value="Update My Account"></p>
