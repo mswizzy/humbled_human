@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %} Humbled Human Administration {% endblock %}
+
+
+{% block body %} 
+
+<h1>Edit Cause</h1>
+<hr>
+
+  <div class="row justify-content-center">
+      <div class="col-6">
+  <form method="POST" action="{{ url_for('update_cause', cause_id=cause['_id']) }}">
+
+    <div class="row">
+        <div class="col-3 label-align">
+            <p><label for="current_cause">Current: </label></p>
+        </div>
+        <div class="col-3">
+            <p>{{ cause['cause'] }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-3 label-align">
+    <p> <label for="cause">Edit Cause: </label></div>
+        <div class="col-3">
+        <input type="text" id="cause" name="cause" autofocus required ></p>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <p>  
+    <input type="submit" class="btn btnUpdate" value="Update Cause"></p>
+    </form>
+      </div>
+  </div>
+      
+<br>
+<hr>
+
+{% endblock %}

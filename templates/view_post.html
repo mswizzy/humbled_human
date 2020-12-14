@@ -40,7 +40,25 @@
         <p style="display:inline;">{{ post['description'] }}</p>
     </div>
 </div>
-<hr>
+<br>
+
+{% if current_user.username == post['username'] or current_user.role=='admin'%}
+<div class="row justify-content-center">
+    <div class="col-4 label-align">
+    
+    <form action="{{ url_for('edit_post', post_id=post['_id']) }}" method="POST">
+        <input type="submit" class="btn btnUpdate" value="Edit"/>
+    </form>
+    </div>
+    {% endif %}
+    {% if current_user.role=='admin' %}
+
+    <div class="col-4 align-items-center">
+        <form action="{{ url_for('delete_post', post_id=post['_id']) }}" method="POST">
+            <input type="submit" class="btn btnDelete" value="Delete">
+        </form>
+    </div>
+        {% endif %}
 
 <div class="row justify-content-center">
     <div class="col-5 label-align">
@@ -49,24 +67,6 @@
         <p style="display:inline;">{{ post['username'] }}</p>
     </div>
 </div>
-    
-<div class="row justify-content-center">
-    {% if current_user.username == post['username'] or current_user.role=='admin'%}
-    <form action="{{ url_for('edit_post', post_id=post['_id']) }}" method="POST">
-        <input type="submit" value="Edit"/>
-    </form>
-    {% endif %}
-</div>
-
-<div class="row justify-content-center">
-    {% if current_user.role=='admin' %}
-    <form action="{{ url_for('delete_post', post_id=post['_id']) }}" method="POST">
-        <input type="submit" value="Delete">
-    </form>
-    {% endif %}
-</div>
-
-
 
 <div class="row justify-content-center"> 
     <div class="col-5 label-align">
@@ -83,7 +83,7 @@
         <p style="display:inline;">{{ post['date_modified'] }}</p>
     </div>
 </div>
-
+</div>
 <br>
 
 {% endblock %}

@@ -6,14 +6,19 @@
 {% block body %} 
 <h1>Admin Functionality</h1>
 <h4>Select an option from below</h4>
-<div class="row justify-content-center">
-    <div class="col-6">
-<ul class="list-group">
-    <li class="list-group-item"><a class="link" href="{{ url_for('view_posts') }}">View all posts</a></li>
-    <li class="list-group-item"><a class="link" href="{{ url_for('view_causes') }}">View all causes</a></li>
-    <li class="list-group-item"><a class="link" href="{{ url_for('admin_users') }}">View all users</a></li>
-    <li class="list-group-item"><a class="link" href="{{ url_for('admin_add_user') }}">Add new user</a></li>
-</ul>
-    </div></div>
 <br>
+<div class="row justify-content-center">
+    <div class="col-4">
+<ul class="list-group">
+    <li class="list-group-item"><a style="color:black;"href="{{ url_for('view_posts') }}">View all posts</a></li>
+    <li class="list-group-item"><a style="color: black;" href="{{ url_for('view_causes') }}">View all causes</a></li>
+    <li class="list-group-item"><a style="color:black;" href="{{ url_for('admin_users') }}">View all users</a></li>
+    <li class="list-group-item"><a style="color:black;" href="{{ url_for('admin_add_user') }}">Add new user</a></li>
+</ul>
+<br>
+    </div>
+
+<br>
+</div>
+
 {% endblock %}

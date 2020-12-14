@@ -3,12 +3,15 @@ input:read-only {
   }
 
 body {
-  background-color: #ac8bfa;
+  background-image: url('/static/images/pastel_bg.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .backg {
   background-color: whitesmoke;
 }
+
 .center {
   display: block;
   margin-left: auto;
@@ -20,7 +23,8 @@ h1,h3,h4 {
 }
 
 .navbar {
-  background-color: white !important;
+  background-color: whitesmoke !important;
+  border-bottom: 1px solid grey;
 }
 .nav-link {
   color: black !important;
@@ -30,12 +34,38 @@ h1,h3,h4 {
   text-align: right;
 }
 
-.btn {
-  background-color: yellow;
+.list-group-item {
+  background-color: #FAFCC2;
+  text-align: center;
+  
 }
 
+.list-group-item:hover {
+  background-color: #f1f580;
+}
+.btn {
+  background-color:#CCF6C8;
+  border: solid 1px #b9fcb3;
+  color: black;
+}
+
+.btn:hover {
+  background-color:#FAFCC2;
+}
+
+.btnUpdate {
+  background-color: #F6D6AD;
+}
+
+.btnDelete {
+  background-color: #F9C0C0;
+}
 th {
   text-align: center;
-  background-color: silver;
+  background-color: #FAFCC2;
   color: black;
+}
+
+table {
+  border: solid 1px grey;
 }

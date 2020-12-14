@@ -11,30 +11,25 @@
 <form method="POST" action="{{ url_for('update_post', post_id=post['_id']) }}">
 
     <div class="row justify-content-center">
-        <div class="col-4">
-            <div class="row justify-content-center">
+        <div class="col-5 label-align">
                 <label for="title">Title </label></div>
-            <div class="row justify-content-center">
+            <div class="col-5">
                 <input type="text" id="title" name="title" class="form-control" value="{{ post['title'] }}" required autofocus>
             </div>
         </div>
-    </div>
 <br>
     <div class="row justify-content-center">
-        <div class="col-6">
-            <div class="row justify-content-center">
+        <div class="col-5 label-align">
                 <label for="organization">Organization </label></div>
-            <div class="row justify-content-center">
+            <div class="col-5">
                 <input type="text" id="organization" name="organization" class="form-control" value="{{ post['organization'] }}" required>
             </div>
-        </div>
     </div>
 <br>
     <div class="row justify-content-center">
-        <div class="col-6">
-            <div class="row justify-content-center">
+        <div class="col-5 label-align">
                 <label for="cause">Cause </label></div>
-            <div class="row justify-content-center">
+            <div class="col-5">
                 <select name="cause" required>
                     <option value="{{ post['cause'] }}"></option>                    
                     {% for cause in all_causes %}
@@ -43,73 +38,64 @@
                 </select>
             </div>
         </div>
-    </div>
     
-<br>
+    <br>
+
     <div class="row justify-content-center">
-        <div class="col-6">
-            <div class="row justify-content-center">
+        <div class="col-5 label-align">
                 <label for="link">Link </label></div>
-            <div class="row justify-content-center">
+            <div class="col-5">
                 <input type="text" id="link" name="link" class="form-control" value="{{ post['link'] }}" required>
             </div>
         </div>
-    </div>
-<br>
+    <br>
     <div class="row justify-content-center">
-        <div class="col-6">
-            <div class="row justify-content-center">
+        <div class="col-5 label-align">
                 <label for="description"> Description </label></div>
-            <div class="row justify-content-center">
+            <div class="col-5">
                 <input type="text" id="description" name="description" class="form-control" value="{{ post['description'] }}" required>
             </div>
         </div>
-    </div>
 
-    <br>
     <br>
     
     <div class="row justify-content-center">
-        <div class="col-6">
-            <div class="row justify-content-center"> 
+        <div class="col-4 label-align">
                 <label for="shared_by">Shared by: </label></div>
-            <div class="row justify-content-center">
+            <div class="col-4">
                 <p style="display:inline;">{{ post['username'] }}</p>
             </div>
         </div>
-    </div>
 
     <div class="row justify-content-center">
-        <div class="col-3">
-            <div class="row justify-content-center"> 
+        <div class="col-4 label-align">
                 <label> Date added: </label></div>
-            <div class="row justify-content-center">
+            <div class="col-4">
                 <input type="text" id="date_added" name="date_added" class="form-control" value="{{ post['date_added'] }}" required readonly>
             </div>
         </div>    
     </div>
 
     <div class="row justify-content-center"> 
-        <div class="col-3">
-            <div class="row justify-content-center">
+        <div class="col-4 label-align">
                 <label> Last modified: </label></div>
-            <div class="row justify-content-center">
+            <div class="col-4">
                 <p>{{ post['date_modified'] }}</p>
             </div>
         </div>
-    </div>
+    
 <br>
     <div class="row justify-content-center">
         <div class="col-4">
             <div class="row justify-content-center">
-            <input type="submit" class="btn btn-secondary" value="Update Post">
+            <input type="submit" class="btn btnUpdate" value="Update Post">
         </div>
         </div>
     </div>
 
 </form>
+<br>
 </div>
 
-<br>
 
 {% endblock %}

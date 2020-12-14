@@ -409,6 +409,15 @@ def delete_post(post_id):
     flash('Post not found.', 'warning')
     return redirect(url_for('view_posts'))
 
+#@app.route('/post/feature-post/<post_id>', methods=['GET', 'POST'])
+#@login_required
+#@roles_required('admin')
+#def feature_post(post_id):
+#    feature_post = posts.find_one({'_id': ObjectId(post_id)})
+#    if feature_post:
+#        return redirect(url_for('index', post=feature_post))
+
+
 ###### CAUSES ######
 @app.route('/causes', methods=['GET', 'POST'])
 @login_required
@@ -448,10 +457,10 @@ def add_cause():
 
     return render_template('causes.html', all_causes=causes.find())
 
-@app.route('/causes/edit-cause/<cause_id>', methods=['GET', 'POST'])
+@app.route('/causes/update-cause/<cause_id>', methods=['GET', 'POST'])
 @login_required
 @roles_required('admin')
-def edit_cause(cause_id):
+def update_cause(cause_id):
     if request.method == 'POST':
         form = request.form
         update_cause = causes.find_one({'_id': ObjectId(cause_id)})
@@ -460,8 +469,18 @@ def edit_cause(cause_id):
             "cause": form['cause']
         }})
         flash(update_cause['cause'] + ' has been updated.', 'success')
-        return render_template('causes.html', cause=update_cause)
+        return render_template('causes.html', all_causes=causes.find())
     return render_template('causes.html', all_causes=causes.find())
+
+@app.route('/causes/edit-cause/<cause_id>', methods=['GET', 'POST'])
+@login_required
+@roles_required('admin', 'contributor')
+def edit_cause(cause_id):
+    edit_cause = causes.find_one({'_id': ObjectId(cause_id)})
+    if edit_cause:
+        return render_template('edit-cause.html', all_causes=causes.find(), cause=edit_cause)
+    flash('Post not found.', 'danger')
+    return redirect(url_for('view_causes'))
 
 if __name__ == "__main__":
     app.run(debug=True)

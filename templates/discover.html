@@ -6,13 +6,14 @@
 {% block body %} 
 <h1>Discover</h1>
 <br>
-<div class="justify-content-center">
-    <p>Check out some of the organizations our contributors have shared!</p>
+
+<p style="text-align: center;">Check out some of the organizations our contributors have shared!</p>
+<p style="text-align: center;">
     <a class="btn" role="button" href="{{ url_for('new_post') }}">Share post</a>
-</div>
+</p>
 
 {% if all_posts %}
-<div class="justify-content-center">
+<div class="justify-content-center" style="margin-right: 10px; margin-left: 10px;">
 <table class="table table-hover">
     <thead>
         <tr>
@@ -39,10 +40,10 @@
             <td> {{ row['username'] }}</td>
             <td> {{ row['date_added'] }}</td>
 
-            <td><form action="{{ url_for('view_post', post_id=row['_id']) }}" method="POST"><input type="submit" class="btn btn-primary" value="More details"></form></td>
+            <td><form action="{{ url_for('view_post', post_id=row['_id']) }}" method="POST"><input type="submit" class="btn btnDetails" value="Details"></form></td>
             {% if current_user.role =='admin' %}
             <td><form action="{{ url_for('delete_post', post_id=row['_id']) }}" method="POST">
-                <input type="submit" value="Delete"  />
+                <input type="submit" class="btn btnDelete" value="Delete"  />
             </form>    </td>
 
             {% endif %}
@@ -50,6 +51,8 @@
         {% endfor %}
     </tbody>
 </table>
+<br>
 </div>
+
 {% endif %}
 {% endblock %}
