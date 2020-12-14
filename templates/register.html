@@ -7,36 +7,114 @@
 <h3>Create your account</h3>
   <hr>
   <form method="POST" action="/register/add-user">
+    <div class="row">
+      <div class="col-6 justify-content-center">
+    <div class="row justify-content-center">
+      <div class="col-3 label-align"> 
+        <p> <label for="username">Username: </label></div>
+      <div class="col-3">
+      <input type="text" id="username" name="username" required autofocus ></p>
+        </div>
+    </div>
 
-    <p> <label for="username">Username: </label>
-    <input type="text" id="username" name="username" required autofocus ></p>
+    <div class="row justify-content-center">
+      <div class="col-3 label-align">
+        <p> <label  for="first_name"> First Name: </label></div>  
+      <div class="col-3">
+          <input type="text" id="first_name" name="first_name" required ></p>
+          </div>
+    </div>
 
-    <p> <label  for="first_name"> First Name: </label>    
-    <input type="text" id="first_name" name="first_name" required ></p>
+    <div class="row justify-content-center">
+      <div class="col-3 label-align">
+        <p> <label  for="last_name"> Last Name: </label></div>
+      <div class="col-3">
+        <input type="text" id="last_name" name="last_name" required ></p>
+          </div>
+    </div>
 
-    <p> <label  for="last_name"> Last Name: </label>    
-    <input type="text" id="last_name" name="last_name" required ></p>
+    <div class="row justify-content-center">
+      <div class="col-3 label-align">
+        <p> <label  for="email"> Email: </label></div>
+      <div class="col-3">  
+        <input type="text" id="email" name="email" required ></p>
+          </div>
+    </div>
 
-    <p> <label  for="email"> Email: </label>    
-    <input type="text" id="email" name="email" required ></p>
+    <div class="row justify-content-center">
+      <div class="col-3 label-align">
+        <p> <label  for="password"> Password: </label></div>
+      <div class="col-3">
+        <input type="text" id="password" name="password" required ></p>
+      </div>
+    </div>
 
-    <p> <label  for="password"> Password: </label>    
-    <input type="text" id="password" name="password" required ></p>
+  </div>
+    
+  <!--start second column-->
+<div class="col-6 justify-content-center">
 
-    <p> <label  for="confirm_password"> Confirm password: </label>    
-    <input type="text" id="confirm_password" name="confirm_password" required ></p>
-   
-    <p> <label for="organization">Organization: </label>
-    <input type="text" id="organization" name="organization" required ></p>
 
-    <p> <label for="dob">Date of Birth: </label>
-    <input type="date" id="dob" name="dob" required ></p>
-   
-    <p> <label for="role">Role: </label>
-    <input type="text" id="role" name="role" value="contributor" readonly="readonly" ></p>
+    <div class="row justify-content-center">
+      <div class="col-3 label-align">
+        <p> <label  for="confirm_password"> Confirm password: </label> </div>
+      <div class="col-3">  
+        <input type="text" id="confirm_password" name="confirm_password" required ></p>
+      </div>
+    </div>
+    
+    <div class="row justify-content-center">
+      <div class="col-3 label-align">
+        <p> <label for="organization">Organization: </label></div>
+      <div class="col-3">
+        <input type="text" id="organization" name="organization" required ></p>
+      </div>
+    </div>
 
-    <p>  
-<input type="submit" value="Add User"></p>
+
+    <div class="row justify-content-center">
+      <div class="col-3 label-align">
+        <p> <label for="dob">Date of Birth: </label></div>
+      <div class="col-3">
+        <input type="date" id="dob" name="dob" required ></p>
+      </div>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-3 label-align">
+        <p> 
+        <label for="role">Role :</label> </div>
+      <div class="col-3">
+        <select name="role" required>
+          <option value="" selected="selected" disabled hidden> -- Choose role -- </option>
+          {% for role in all_roles %}
+          {%if role['role_name'] == 'contributor'%}
+          
+        <option value="{{ role['role_name'] }}">{{ role['role_name'] }}</option>
+          {% endif %}
+        {% endfor %}
+        </select>
+        </p>
+      </div>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-3 label-align">
+        <label for="date_added">Date Added :</label>
+      </div>
+      <div class="col-3">
+        <input type="text" id="date_added" name="date_added" placeholder="00/00/0000" readonly>
+      </div>
+    </div>
+</div>
+
+  <div class="row justify-content-center">
+    <div class="col-4">
+      <p><input type="submit" value="Register"></p>
+    </div>
+  </div>
 
 </form>
+<br>
+  <hr>
 {% endblock %}

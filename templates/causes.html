@@ -5,20 +5,28 @@
 
 {% block body %} 
 
-<h1>Admin Page</h1>
+<h1>Causes</h1>
 <hr>
-<p>Humbled Human - All Users</p>
-<h3>Add a new user</h3>
-  <hr>
+
+  <div class="row justify-content-center">
+      <div class="col-6">
   <form method="POST" action="/causes/add-cause">
 
-    
-    <p> <label for="new_cause">New Cause: </label>
+    <div class="row">
+        <div class="col-3 label-align">
+    <p> <label for="new_cause">New Cause: </label></div>
+        <div class="col-3">
         <input type="text" id="new_cause" name="new_cause" autofocus ></p>
-    <p>  
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <p>  
     <input type="submit" value="Add Cause"></p>
     </form>
-  <hr>
+      </div>
+  </div>
+      <div class="col-6">
+        <div class="row justify-content-center">
 
   <br>
   {% if all_causes %}
@@ -44,6 +52,8 @@
         </tbody>
     </table>
 {% endif %}
+      </div>
+    </div>
 <br>
 <hr>
 

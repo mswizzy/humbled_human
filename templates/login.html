@@ -1,24 +1,34 @@
 
 {% extends 'base.html' %}
 
-{% block title %} My Recipes Login {% endblock %}
+{% block title %} Login {% endblock %}
 
 
 {% block body %} 
-
+<br>
+<div class="center login">
+    <h3 style="text-align: center;">Login</h3>
+    <br>
 <form method=POST action="{{ url_for('login') }}">
-<p>
-<label for="email">Email</label>
-<input type="text" name="email" id="email" placeholder="Email" autofocus>
-</p>
-
-<p>
-<label for="password">Password</label>
-<input type="password" name="password" id="password" placeholder="Password">
-</p>
-<p><button type="submit" class="btn btn-primary btn-block">Log In</button></p>
-
+<div class="row justify-content-center">
+    <div class="col-4">
+        <input type="text" name="email" id="email" placeholder="Email" autofocus>
+    </div>
+</div>
+<br>
+<div class="row justify-content-center">
+    <div class="col-4">
+        <input type="password" name="password" id="password" placeholder="Password">
+    </div>
+</div>
+<br>
+<div class="row justify-content-center">
+    <div class="col-4">
+        <button type="submit" class="btn btn-primary btn-block">Log In</button></p>
+    </div>
+</div>
 </form>
-<p>Don't have an account? <a href="{{ url_for('register') }}">Sign up here</a>.</p>
+<p style="text-align: center;">Don't have an account? <a href="{{ url_for('register') }}">Sign up here</a>.</p>
+</div>
 
 {% endblock %}

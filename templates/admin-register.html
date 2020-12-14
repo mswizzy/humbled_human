@@ -4,49 +4,117 @@
 
 
 {% block body %} 
-
-<h1>Admin Page</h1>
+<br>
+<h1>Admin - New User</h1>
 <hr>
-<p>Register a New User</p>
-<h3>Add a new user</h3>
+<p style="text-align:center;">Register a New User</p>
+<h3 style="text-align: center;">Create a New User</h3>
   <hr>
-  <form method="POST" action="/admin/add-user">
 
-    
-    <p> <label for="username">Username: </label>
-        <input type="text" id="username" name="username" required autofocus ></p>
-    
-        <p> <label  for="first_name"> First Name: </label>    
-        <input type="text" id="first_name" name="first_name" required ></p>
-    
-        <p> <label  for="last_name"> Last Name: </label>    
+  <form method="POST" action="/admin/add-user">
+    <div class="row">
+      <div class="col-6 justify-content-center">
+    <div class="row justify-content-center">
+      <div class="col-3 label-align"> 
+        <p> <label for="username">Username: </label></div>
+      <div class="col-3">
+      <input type="text" id="username" name="username" required autofocus ></p>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-3 label-align">
+        <p> <label  for="first_name"> First Name: </label></div>  
+      <div class="col-3">
+          <input type="text" id="first_name" name="first_name" required ></p>
+          </div>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-3 label-align">
+        <p> <label  for="last_name"> Last Name: </label></div>
+      <div class="col-3">
         <input type="text" id="last_name" name="last_name" required ></p>
-    
-        <p> <label  for="email"> Email: </label>    
+          </div>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-3 label-align">
+        <p> <label  for="email"> Email: </label></div>
+      <div class="col-3">  
         <input type="text" id="email" name="email" required ></p>
-    
-        <p> <label  for="password"> Password: </label>    
+          </div>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-3 label-align">
+        <p> <label  for="password"> Password: </label></div>
+      <div class="col-3">
         <input type="text" id="password" name="password" required ></p>
+      </div>
+    </div>
+
+  </div>
     
-        <p> <label  for="confirm_password"> Confirm password: </label>    
+  <!--start second column-->
+<div class="col-6 justify-content-center">
+
+
+    <div class="row justify-content-center">
+      <div class="col-3 label-align">
+        <p> <label  for="confirm_password"> Confirm password: </label> </div>
+      <div class="col-3">  
         <input type="text" id="confirm_password" name="confirm_password" required ></p>
-       
-        <p> <label for="organization">Organization: </label>
-        <input type="text" id="organization" name="organization" required ></p>
+      </div>
+    </div>
     
-        <p> <label for="dob">Date of Birth: </label>
+    <div class="row justify-content-center">
+      <div class="col-3 label-align">
+        <p> <label for="organization">Organization: </label></div>
+      <div class="col-3">
+        <input type="text" id="organization" name="organization" required ></p>
+      </div>
+    </div>
+
+
+    <div class="row justify-content-center">
+      <div class="col-3 label-align">
+        <p> <label for="dob">Date of Birth: </label></div>
+      <div class="col-3">
         <input type="date" id="dob" name="dob" required ></p>
-    <p> 
-    <label for="role">Role :</label>
-    <select name="role" required>
-        <option value="" selected disabled hidden> -- Choose role -- </option>
-        {% for role in all_roles %}
-       <option value="{{ role['role_name'] }}">{{ role['role_name'] }}</option>
-    {% endfor %}
-    </select>
-    </p>
-    <p>  
-<input type="submit" value="Add User"></p>
+      </div>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-3 label-align">
+        <p> 
+        <label for="role">Role :</label> </div>
+      <div class="col-3">
+        <select name="role" required>
+          <option value="" selected disabled hidden> -- Choose role -- </option>
+          {% for role in all_roles %}
+        <option value="{{ role['role_name'] }}">{{ role['role_name'] }}</option>
+      {% endfor %}
+        </select>
+        </p>
+      </div>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-3 label-align">
+        <label for="date_added">Date Added :</label>
+      </div>
+      <div class="col-3">
+        <input type="text" id="date_added" name="date_added" placeholder="00/00/0000" readonly>
+      </div>
+    </div>
+</div>
+
+  <div class="row justify-content-center">
+    <div class="col-4">
+    <p><input type="submit" value="Add User"></p>
+  </div>
+  </div>
 
 </form>
 <br>

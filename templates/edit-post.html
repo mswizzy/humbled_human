@@ -5,64 +5,110 @@
 
 {% block body %}
 
-<h3>{{ post['title'] }}</h3>
+<h3>Edit Post: "{{ post['title'] }}"</h3>
 <hr>
+<div class="justify-content-center">
 <form method="POST" action="{{ url_for('update_post', post_id=post['_id']) }}">
 
-    <div class="form-group">
-        <label for="title">Title: </label>
+    <div class="row justify-content-center">
+        <div class="col-4">
+            <div class="row justify-content-center">
+                <label for="title">Title </label></div>
+            <div class="row justify-content-center">
+                <input type="text" id="title" name="title" class="form-control" value="{{ post['title'] }}" required autofocus>
+            </div>
+        </div>
+    </div>
+<br>
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <div class="row justify-content-center">
+                <label for="organization">Organization </label></div>
+            <div class="row justify-content-center">
+                <input type="text" id="organization" name="organization" class="form-control" value="{{ post['organization'] }}" required>
+            </div>
+        </div>
+    </div>
+<br>
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <div class="row justify-content-center">
+                <label for="cause">Cause </label></div>
+            <div class="row justify-content-center">
+                <select name="cause" required>
+                    <option value="{{ post['cause'] }}"></option>                    
+                    {% for cause in all_causes %}
+                    <option value="{{cause['cause'] }}">{{ cause['cause'] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+    
+<br>
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <div class="row justify-content-center">
+                <label for="link">Link </label></div>
+            <div class="row justify-content-center">
+                <input type="text" id="link" name="link" class="form-control" value="{{ post['link'] }}" required>
+            </div>
+        </div>
+    </div>
+<br>
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <div class="row justify-content-center">
+                <label for="description"> Description </label></div>
+            <div class="row justify-content-center">
+                <input type="text" id="description" name="description" class="form-control" value="{{ post['description'] }}" required>
+            </div>
+        </div>
+    </div>
+
     <br>
-        <input type="text" id="title" name="title" class="form-control" value="{{ post['title'] }}" required autofocus>
-    </div>
-
-    <div class="form-group">
-        <label for="organization">Organization: </label>
     <br>
-        <input type="text" id="organization" name="organization" class="form-control" value="{{ post['organization'] }}" required>
+    
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <div class="row justify-content-center"> 
+                <label for="shared_by">Shared by: </label></div>
+            <div class="row justify-content-center">
+                <p style="display:inline;">{{ post['username'] }}</p>
+            </div>
+        </div>
     </div>
 
-    <div class="form-group">
-        <label for="cause">Cause: </label>
-    <br>
-        <select name="cause" required>
-            <option value="{{ post['cause'] }}"></option>
-            {% for cause in all_causes %}
-            <option value="{{cause['cause'] }}">{{ cause['cause'] }}</option>
-            {% endfor %}
-        </select>
+    <div class="row justify-content-center">
+        <div class="col-3">
+            <div class="row justify-content-center"> 
+                <label> Date added: </label></div>
+            <div class="row justify-content-center">
+                <input type="text" id="date_added" name="date_added" class="form-control" value="{{ post['date_added'] }}" required readonly>
+            </div>
+        </div>    
     </div>
 
-    <div class="form-group">
-        <label class="print" for="link">Link: </label>
-    <br>
-        <input type="text" id="link" name="link" class="form-control" value="{{ post['link'] }}" required>
+    <div class="row justify-content-center"> 
+        <div class="col-3">
+            <div class="row justify-content-center">
+                <label> Last modified: </label></div>
+            <div class="row justify-content-center">
+                <p>{{ post['date_modified'] }}</p>
+            </div>
+        </div>
     </div>
-
-    <div class="form-group">
-        <label class="print" for="description"> Description: </label>
-    <br>
-        <input type="text" id="description" name="description" class="form-control" value="{{ post['description'] }}" required>
-    </div>
-
-    <div class="form-group"> <label>Shared by: </label>
-        <p style="display:inline;">{{ post['username'] }}</p>
-    </div>
-
-    <div class="form-group"> <label> Date added: </label>
-        <input type="text" id="date_added" name="date_added" class="form-control" value="{{ post['date_added'] }}" required readonly>
-        
-    </div>
-
-    <div class="form-group"> <label> Last modified: </label>
-        <p style="display:inline;">{{ post['date_modified'] }}</p>
-    </div>
-
-    <div>
-        <input type="submit" class="btn btn-secondary" value="Update Post">
+<br>
+    <div class="row justify-content-center">
+        <div class="col-4">
+            <div class="row justify-content-center">
+            <input type="submit" class="btn btn-secondary" value="Update Post">
+        </div>
+        </div>
     </div>
 
 </form>
-
+</div>
 
 <br>
 

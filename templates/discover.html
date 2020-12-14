@@ -5,11 +5,14 @@
 
 {% block body %} 
 <h1>Discover</h1>
-<p>List all posts here in table view</p>
-
-<a href="{{ url_for('new_post') }}">Share post</a>
+<br>
+<div class="justify-content-center">
+    <p>Check out some of the organizations our contributors have shared!</p>
+    <a class="btn" role="button" href="{{ url_for('new_post') }}">Share post</a>
+</div>
 
 {% if all_posts %}
+<div class="justify-content-center">
 <table class="table table-hover">
     <thead>
         <tr>
@@ -21,6 +24,7 @@
             <th scope="col">Shared by</th>
             <th scope="col">Date Added</th>
             <th scope="col">Details</th>
+            <th scope="col"></th>
         </tr>
     </thead>
 
@@ -46,5 +50,6 @@
         {% endfor %}
     </tbody>
 </table>
+</div>
 {% endif %}
 {% endblock %}

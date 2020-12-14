@@ -5,15 +5,15 @@
 
 {% block body %} 
 
-<h1>Admin Page</h1>
+<h1>Admin - All Users</h1>
 <hr>
-<p>Humbled Human - All Users</p>
 <h3>All current users</h3>
-  <hr>
-  <p><a href="{{ url_for('admin_add_user') }}">Add a new user</a></p>
+
+  <p style="text-align:center;"><a role="button" class="btn"href="{{ url_for('admin_add_user') }}">Add a new user</a></p>
   <hr>
 
   <br>
+  <div class="row justify-content-center">
   {% if all_users %}
     <table>
         <thead>
@@ -23,10 +23,12 @@
                 <th>Last Name</th>
                 <th>Email</th>
                 <th>Organization</th>
-                <th>DOB</th>
+                <!--<th>DOB</th>-->
                 <th>Role</th>
                 <th>Date Added</th>
-                <th>Date Modified</th>
+                <!--<th>Date Modified</th>-->
+                <th></th>
+                <th></th>
             </tr>
         </thead>
 
@@ -38,10 +40,10 @@
                 <td> {{ row['last_name'] }}</td>
                 <td> {{ row['email'] }}</td>
                 <td> {{ row['organization'] }}</td>
-                <td> {{ row['dob'] }}</td>
+                <!--<td> {{ row['dob'] }}</td>-->
                 <td> {{ row['role'] }}</td>
                 <td> {{ row['date_added'] }}</td>
-                <td> {{ row['date_modified'] }}</td>
+                <!--<td> {{ row['date_modified'] }}</td>-->
             
                 <td><form action="{{ url_for('admin_delete_user', user_id=row['_id']) }}" method="POST">
                     <input type="submit" value="Delete"  />
@@ -55,5 +57,8 @@
         </tbody>
     </table>
 {% endif %}
+  </div>
+  <br>
+  <hr>
 
 {% endblock %}

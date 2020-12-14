@@ -1,3 +1,41 @@
 input:read-only { 
     background-color: lightgray;
   }
+
+body {
+  background-color: #ac8bfa;
+}
+
+.backg {
+  background-color: whitesmoke;
+}
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+h1,h3,h4 {
+  text-align: center;
+}
+
+.navbar {
+  background-color: white !important;
+}
+.nav-link {
+  color: black !important;
+}
+
+.label-align {
+  text-align: right;
+}
+
+.btn {
+  background-color: yellow;
+}
+
+th {
+  text-align: center;
+  background-color: silver;
+  color: black;
+}

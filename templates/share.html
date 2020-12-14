@@ -6,35 +6,66 @@
 <h1>Share something</h1>
 
 <form method="POST" action="/posts/add-post">
+    <div class="row justify-content-center">
+        <div class="col-5 label-align">
+            <label for="title">Post Title: </label></div>
+        <div class="col-5">
+            <input type="text" id="title" name="title" required autofocus >
+        </div>
+    </div>
 
-    <p><label for="title">Post Title: </label>
-    <input type="text" id="title" name="title" required autofocus ></p>
+    <div class="row justify-content-center">
+        <div class="col-5 label-align">
+            <label for="organization">Organization: </label></div>
+        <div class="col-5">
+            <input type="text" id="organization" name="organization" required >
+        </div>
+    </div>
 
-    <p><label for=organization">Organization: </label>
-    <input type="text" id="organization" name="organization" required ></p>
+    <div class="row justify-content-center">
+        <div class="col-5 label-align">
+            <label for="link">Link to Organization: </label></div>
+        <div class="col-5">
+            <input type="text" id="link" name="link" required >
+        </div>
+    </div>
 
-    <p><label for=link">Link to Organization: </label>
-    <input type="text" id="link" name="link" required ></p>
+    <div class="row justify-content-center">
+        <div class="col-5 label-align">
+            <label for="cause">Cause:</label></div>
+        <div class="col-5">
+            <select name="cause" required>
+                <option value="" selected disabled hidden> -- Choose cause -- </option>
+                {% for cause in all_causes %}
+                <option value="{{ cause['cause'] }}">{{ cause['cause'] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    
+    <div class="row justify-content-center">
+        <div class="col-5 label-align">
+            <label for="description">Description: </label></div>
+        <div class="col-5"> 
+            <input type="text" id="description" name="description" required >
+        </div>
+    </div>
 
-    <p> 
-    <label for="cause">Cause:</label>
-    <select name="cause" required>
-        <option value="" selected disabled hidden> -- Choose cause -- </option>
-        {% for cause in all_causes %}
-        <option value="{{ cause['cause'] }}">{{ cause['cause'] }}</option>
-        {% endfor %}
-    </select>
-    </p>
+    <div class="row justify-content-center">
+        <div class="col-5 label-align">
+            <label for="username"> Added by: </label></div>
+        <div class="col-5">
+            {% if current_user.is_authenticated %}
+            <input type="text " name="username" class="form-control" value="{{ current_user.username }}" required readonly>
+            {% endif %}
+        </div>
+    </div>
 
-    <p><label for="description">Description: </label>
-    <input type="text" id="description" name="description" required ></p>
-
-    <div class="form-group"> <label for="username"> Added by: </label>
-        {% if current_user.is_authenticated %}
-        <input type="text " name="username" class="form-control" value="{{ current_user.username }}" required readonly>
-        {% endif %}</div>
-    <p>  
-<input type="submit" value="Add Post"></p>
+    <div class="row justify-content-center">
+        <div class="col-4">
+            <input type="submit" value="Add Post">
+        </div>
+    </div>
 
 </form>
 <hr>

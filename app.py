@@ -136,7 +136,7 @@ def register():
     if current_user.is_authenticated:
         print('user is authenticated')
         return redirect(url_for('index'))
-    return render_template('register.html')
+    return render_template('register.html', all_roles=roles.find())
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

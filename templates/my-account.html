@@ -9,43 +9,107 @@
   <hr>
   {% if user %}
   <form method="POST" action="{{ url_for('update_myaccount', user_id=user['_id']) }}">
+    <div class="row">
+      <div class="col-6">
 
-        <p><label for="username"> Username: </label>
+    <div class="row justify-content-center">
+      <div class="col-3 label-align">
+        <p><label for="username"> Username: </label></div>
+      <div class="col-3">
         <input type="text" id="username" name="username" required autofocus value = "{{ user['username'] }}"></p>
+      </div>
+    </div>
 
-        <p> <label  for="first_name"> First Name: </label>    
+    <div class="row justify-content-center">
+      <div class="col-3 label-align">
+        <p> <label  for="first_name"> First Name: </label></div>
+      <div class="col-3">
         <input type="text" id="first_name" name="first_name" required value="{{ user['first_name'] }}"></p>
+      </div>
+    </div>
 
-        <p> <label  for="last_name"> Last Name: </label>    
+    <div class="row justify-content-center">
+      <div class="col-3 label-align">
+        <p> <label  for="last_name"> Last Name: </label></div>
+      <div class="col-3">
         <input type="text" id="last_name" name="last_name" required value="{{ user['last_name'] }}" ></p>
+      </div>
+    </div>
 
-        <p> <label  for="email"> Email: </label>    
+    <div class="row justify-content-center">
+      <div class="col-3 label-align">
+        <p> <label  for="email"> Email: </label></div>
+      <div class="col-3"> 
         <input type="text" id="email" name="email" required value="{{ user['email'] }}"></p>
-    
-        <p> <label  for="password"> Password: </label>    
+      </div>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-3 label-align">
+        <p> <label  for="password"> Password: </label></div>
+      <div class="col-3">
         <input type="text" id="password" name="password" required value="{{ user['password'] }}"></p>
-        
-        <p> <label  for="confirm_password"> Confirm password: </label>    
+      </div>
+    </div>
+      </div>
+      <div class="col-6">
+<!--start second column-->
+    <div class="row justify-content-center">
+      <div class="col-3 label-align">
+        <p> <label  for="confirm_password"> Confirm password: </label></div>
+      <div class="col-3">    
           <input type="text" id="confirm_password" name="confirm_password" required value="{{ user['password'] }}"></p>
+      </div>
+    </div>
 
-        <p><label for="organization"> Organization: </label>
+    <div class="row justify-content-center">
+      <div class="col-3 label-align">
+        <p><label for="organization"> Organization: </label></div>
+      <div class="col-3">
         <input type="text" id="organization" name="organization" required value="{{ user['organization'] }}"></p>
-
-        <p><label for="dob"> DOB: </label>
-        <input type="date" id="dob" name="dob" required value="{{ user['dob'] }}"></p>
-
-        <p> <label for="role"> Role: </label>    
+      </div>
+    </div>
+    
+    <div class="row justify-content-center">
+      <div class="col-3 label-align">
+        <p><label for="dob"> DOB: </label></div>
+      <div class="col-3">
+        <input type="date" id="dob" name="dob" required value="{{ user['dob'] }}"></p></div>
+    </div>
+    
+    <div class="row justify-content-center">
+      <div class="col-3 label-align">
+        <p> <label for="role"> Role: </label></div>
+      <div class="col-3">    
         <input type="text" id="role" name="role" required value="{{ user['role'] }}" readonly></p>
+      </div>
+    </div>
 
-        <p> <label  for="date_added"> Date Added: </label>    
+    <div class="row justify-content-center">
+      <div class="col-3 label-align">
+        <p> <label  for="date_added"> Date Added: </label></div>
+      <div class="col-3">    
         <input type="text" id="date_added" name="date_added" required value="{{ user['date_added'] }}" readonly></p>
-        
-        <p> <label  for="date_modified"> Date Modifed: </label>    
+      </div>
+    </div>
+      </div>
+    </div>
+  
+    <!--end second column-->
+
+    <div class="row justify-content-center">
+      <p><input type="submit" value="Update My Account"></p>
+    </div>
+     
+    <div class="row justify-content-center">
+      <div class="col-3 label-align">
+        <p> <label  for="date_modified"> Date Modifed: </label>   </div> 
+      <div class="col-3">
         <input type="text" id="date_modified" name="date_modified" required value="{{ user['date_modified'] }}" readonly></p>
+      </div>
+    </div>
 
-        <p>  
-    <input type="submit" value="Update My Account"></p>
-
+    
   </form>
   
 {% endif %}
