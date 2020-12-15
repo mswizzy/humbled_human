@@ -41,7 +41,6 @@
     </div>
 </div>
 <br>
-
 {% if current_user.username == post['username'] or current_user.role=='admin'%}
 <div class="row justify-content-center">
     <div class="col-4 label-align">
@@ -59,7 +58,8 @@
         </form>
     </div>
         {% endif %}
-
+</div>
+<br>
 <div class="row justify-content-center">
     <div class="col-5 label-align">
         <label>Shared by: </label></div>

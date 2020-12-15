@@ -7,29 +7,29 @@
 
 <h3>Edit Post: "{{ post['title'] }}"</h3>
 <hr>
-<div class="justify-content-center">
+<div class="row justify-content-center">
 <form method="POST" action="{{ url_for('update_post', post_id=post['_id']) }}">
 
-    <div class="row justify-content-center">
-        <div class="col-5 label-align">
-                <label for="title">Title </label></div>
-            <div class="col-5">
+    <div class="row">
+        <div class="col-4 label-align">
+                <label for="title">Title: </label></div>
+            <div class="col-8">
                 <input type="text" id="title" name="title" class="form-control" value="{{ post['title'] }}" required autofocus>
             </div>
         </div>
 <br>
-    <div class="row justify-content-center">
-        <div class="col-5 label-align">
-                <label for="organization">Organization </label></div>
-            <div class="col-5">
+    <div class="row">
+        <div class="col-4 label-align">
+                <label for="organization">Organization: </label></div>
+            <div class="col-8">
                 <input type="text" id="organization" name="organization" class="form-control" value="{{ post['organization'] }}" required>
             </div>
     </div>
 <br>
-    <div class="row justify-content-center">
-        <div class="col-5 label-align">
-                <label for="cause">Cause </label></div>
-            <div class="col-5">
+    <div class="row">
+        <div class="col-4 label-align">
+                <label for="cause">Cause: </label></div>
+            <div class="col-8">
                 <select name="cause" required>
                     <option value="{{ post['cause'] }}"></option>                    
                     {% for cause in all_causes %}
@@ -41,25 +41,26 @@
     
     <br>
 
-    <div class="row justify-content-center">
-        <div class="col-5 label-align">
-                <label for="link">Link </label></div>
-            <div class="col-5">
+    <div class="row">
+        <div class="col-4 label-align">
+                <label for="link">Link: </label></div>
+            <div class="col-8">
                 <input type="text" id="link" name="link" class="form-control" value="{{ post['link'] }}" required>
             </div>
         </div>
     <br>
-    <div class="row justify-content-center">
-        <div class="col-5 label-align">
-                <label for="description"> Description </label></div>
-            <div class="col-5">
-                <input type="text" id="description" name="description" class="form-control" value="{{ post['description'] }}" required>
+    <div class="row">
+        <div class="col-4 label-align">
+                <label for="description"> Description: </label></div>
+            <div class="col-8">
+                <textarea name="description" id="description" maxlength="150" value="{{ post['description'] }}" required>{{post['description']}}</textarea>
+                
             </div>
         </div>
 
     <br>
     
-    <div class="row justify-content-center">
+    <div class="row">
         <div class="col-4 label-align">
                 <label for="shared_by">Shared by: </label></div>
             <div class="col-4">
@@ -67,20 +68,20 @@
             </div>
         </div>
 
-    <div class="row justify-content-center">
+    <div class="row">
         <div class="col-4 label-align">
                 <label> Date added: </label></div>
             <div class="col-4">
                 <input type="text" id="date_added" name="date_added" class="form-control" value="{{ post['date_added'] }}" required readonly>
             </div>
         </div>    
-    </div>
+    
 
-    <div class="row justify-content-center"> 
+    <div class="row"> 
         <div class="col-4 label-align">
-                <label> Last modified: </label></div>
-            <div class="col-4">
-                <p>{{ post['date_modified'] }}</p>
+         <label>Last modified:</label></div>
+            <div class="col-5">
+                <p type="date">{{ post['date_modified'] }}</p>
             </div>
         </div>
     
@@ -92,6 +93,7 @@
         </div>
         </div>
     </div>
+    <br>
 
 </form>
 <br>
