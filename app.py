@@ -22,8 +22,6 @@ load_dotenv(dotenv_path)
 
 mongo = os.getenv('MONGO')
 
-#client=pymongo.MongoClient("mongodb+srv://humbled:I71VYTOXl7kKCAjD@cluster0.ovp7x.mongodb.net/humbled?retryWrites=true&w=majority")
-
 client = pymongo.MongoClient(os.getenv('MONGO'))
 
 db = client['humbled'] # Mongo collection
